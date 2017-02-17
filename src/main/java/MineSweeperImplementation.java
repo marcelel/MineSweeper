@@ -7,8 +7,26 @@ public class MineSweeperImplementation implements MineSweeper {
 
     private String mineField[] = null;
 
-    public String[] getMineField() {
-        return mineField;
+    private int convert(char c) {
+        if (c == '*') {
+            return 1;
+        }
+        else {
+            return 0;
+        }
+    }
+
+    private int calculateNumber(int row, int col) {
+        int number = 0;
+        for (int i = row - 1; i <= row + 1; i++) {
+            for (int j = col -1; j <= col + 1; j++) {
+                try {
+                    number += convert(mineField[i].charAt(j));
+                } catch (IndexOutOfBoundsException e) {
+                }
+            }
+        }
+        return number;
     }
 
     public boolean checkIfMineFieldIsProperlyFormatted (String mineField) {
@@ -24,6 +42,10 @@ public class MineSweeperImplementation implements MineSweeper {
         return true;
     }
 
+    public String[] getMineField() {
+        return mineField;
+    }
+
     public void setMineField(String mineField) throws IllegalArgumentException {
         if (!checkIfMineFieldIsProperlyFormatted(mineField)) {
             throw new IllegalArgumentException();
@@ -36,6 +58,22 @@ public class MineSweeperImplementation implements MineSweeper {
     }
 
     public String getHintField() throws IllegalStateException {
-        return null;
+        if (mineField == null) {
+            throw new IllegalStateException();
+        }
+        String hintField = "";
+        for (int i = 0; i < mineField.length; i++) {
+            for (int j = 0; j < mineField[i].length(); j++) {
+                if (mineField[i].charAt(j) == '*') {
+                    hintField += '*';
+                    continue;
+                }
+                hintField += calculateNumber(i, j);
+            }
+            if (i < mineField.length - 1) {
+                hintField += "\n";
+            }
+        }
+        return hintField;
     }
 }

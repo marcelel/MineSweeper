@@ -15,11 +15,13 @@ public class MineSweeperImplementationTest {
         String s3 = ".**.\n*...\n";
         String s4 = "..*.";
         String s5 = ".***\n....\n****";
+        String s6 = "*...\n..*.\n....";
         assertEquals(false, m.checkIfMineFieldIsProperlyFormatted(s1));
         assertEquals(false, m.checkIfMineFieldIsProperlyFormatted(s2));
         assertEquals(false, m.checkIfMineFieldIsProperlyFormatted(s3));
         assertEquals(true, m.checkIfMineFieldIsProperlyFormatted(s4));
         assertEquals(true, m.checkIfMineFieldIsProperlyFormatted(s5));
+        assertEquals(true, m.checkIfMineFieldIsProperlyFormatted(s6));
     }
 
     @Test
@@ -31,9 +33,17 @@ public class MineSweeperImplementationTest {
         assertEquals(lines[1], m.getMineField()[1]);
     }
 
-    @org.junit.Test
+    @Test
     public void getHintField() throws Exception {
-
+        String s1 = ".*..";
+        String s2 = "*..*\n...*\n****";
+        String s3 = "*...\n..*.\n....";
+        m.setMineField(s1);
+        assertEquals("1*10", m.getHintField());
+        m.setMineField(s2);
+        assertEquals("*12*\n345*\n****", m.getHintField());
+        m.setMineField(s3);
+        assertEquals("*211\n12*1\n0111", m.getHintField());
     }
 
 }
